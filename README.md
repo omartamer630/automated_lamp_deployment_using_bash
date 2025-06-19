@@ -14,7 +14,6 @@
 - Description: Verify if the system need to be updated or not
 - `Usage: update_package_manager "package_type"`
 
----
 - Function: check_service_status
 - Description: Verify if the service is active or not
 - `Usage: check_service_status "service_name"`
@@ -41,7 +40,6 @@
 ---
 
 
----
 - Function: function database_configuration
 - Description: Configurate Right Port, Apache settings, and clone the git repo
 - `Usage: configurate_applicaion "port_number" "git clone repo_url"`
