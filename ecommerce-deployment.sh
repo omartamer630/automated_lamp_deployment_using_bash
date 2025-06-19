@@ -1,5 +1,10 @@
 #!/bin/bash
 
+##################################
+# Function: function package_manager_type
+# Description: return the OS package manager type like [APT,DNF, and YUM]
+# Usage: package_manager_type
+##################################
 function package_manager_type(){
   # Get the OS info 
 if [ -f /etc/os-release ];
@@ -25,7 +30,11 @@ then
 fi
 }
 
-# Ensure the package manager is up to date
+##################################
+# Function: update_package_manager
+# Description: Verify if the system need to be updated or not
+# Usage: update_package_manager "package_type"
+##################################
 function update_package_manager() {
 
 if [ "$1" = "apt-get" ];
@@ -59,7 +68,11 @@ fi
 fi
 }
 
-# check status
+##################################
+# Function: check_service_status
+# Description: Verify if the service is active or not
+# Usage: check_service_status "service_name"
+##################################
 function check_service_status(){
   service_name=$1
   is_active=$(sudo systemctl is-active "$service_name")
@@ -72,6 +85,11 @@ function check_service_status(){
   fi
 }
 
+##################################
+# Function: try_start_service
+# Description: Know if there's a service can be started and enabled or not
+# Usage: try_start_service "app_name"
+##################################
 function try_start_service() {
   app="$1"
   case "$app" in
@@ -99,7 +117,12 @@ function try_start_service() {
   fi
 
 }
-# Installing and Configuring Fiewalld
+
+##################################
+# Function: install_application
+# Description: Install All packages needed by the Application through file known as requriment.txt
+# Usage: install_application "package_manager_type" "requriment.txt or package"
+##################################
 function install_application(){
   package_manager_type="none"
   
@@ -135,6 +158,11 @@ try_start_service "$app"
   fi
 }
 
+##################################
+# Function: check_port
+# Description: Verify that a given port is configured in the public zone firewall
+# Usage: check_port "port_number"
+##################################
 function check_port(){
   port=$1
   firewall_ports=$(sudo firewall-cmd --list-all --zone=public | grep ports)
@@ -147,8 +175,12 @@ function check_port(){
   fi
 }
 
+##################################
+# Function: function database_configuration
+# Description: Configurate Right Port, and Mariadb/Mysql with setting up Database name and more..
+# Usage: database_configuration "port_number" "db_name"
+##################################
 function database_configuration(){
-
 port=$1
 sudo firewall-cmd --permanent --zone=public --add-port="$port"/tcp
 sudo firewall-cmd --reload
@@ -192,7 +224,11 @@ else
 fi
 }
 
-# E- Installing and Configuring Apache
+##################################
+# Function: function database_configuration
+# Description: Configurate Right Port, Apache settings, and clone the git repo
+# Usage: configurate_applicaion "port_number" "git clone repo_url"
+##################################
 function configurate_applicaion(){
 
   port=$1
@@ -211,6 +247,7 @@ function configurate_applicaion(){
 
 
 # Main
+
 package_manager_number=$(package_manager_type)
 case $package_manager_number in
   1)  package_manager="apt-get"
